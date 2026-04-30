@@ -1,6 +1,7 @@
 # OpenWebBot
 
 Open source AI agent for customer support. Train it on your docs, embed it on your site with a single script tag.
+<img width="1265" height="618" alt="image" src="https://github.com/user-attachments/assets/44d85a4c-590b-479d-90c4-0b2970d93a26" />
 
 ---
 
