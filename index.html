@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<script>
+(function(){
+  var s=document.createElement("script");
+  s.src="http://localhost:3000/chat-widget.js";
+  s.async=true;
+  s.setAttribute("data-bot-id","7april");
+  s.setAttribute("data-api-endpoint","http://localhost:3000/chat");
+  document.head.appendChild(s);
+})();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+<svg width="100%" viewBox="0 0 680 680" role="img" xmlns="http://www.w3.org/2000/svg" style="">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Chat icon logo</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Dark circle with white chat bubble exactly centered</desc>
+
+  <circle cx="340" cy="340" r="300" fill="#1a1a1a" style="fill:rgb(26, 26, 26);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!--
+    Circle center: 340, 340
+    Bubble rect: 260w x 200h → x: 210–470, y: 240–440
+    Tail adds ~40px below → total height 240, so shift rect up by 20 to visually center
+    Rect: y=220 to y=420, tail tip at y=460, visual center ≈ 340
+  -->
+  <path fill="#f5f5f5" d="&#10;    M 210 255&#10;    Q 210 220 245 220&#10;    L 435 220&#10;    Q 470 220 470 255&#10;    L 470 400&#10;    Q 470 435 435 435&#10;    L 375 435&#10;    Q 365 435 358 445&#10;    L 340 470&#10;    L 322 445&#10;    Q 315 435 305 435&#10;    L 245 435&#10;    Q 210 435 210 400&#10;    Z&#10;  " style="fill:rgb(245, 245, 245);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+</svg>
