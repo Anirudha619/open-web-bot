@@ -36,4 +36,4 @@ Open source AI agent for customer support. Train it on your docs, embed it on yo
 
 ## Contributing
 
-PRs and issues are welcome. (Add contribution guidelines here.)
+PRs and issues are welcome.
