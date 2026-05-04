@@ -179,9 +179,9 @@ export function LeftPanel({ onChatbotCreate }: { onChatbotCreate: (name: string,
                         </div>
                     ) : (
                         <div className="flex flex-col space-y-3">
-                            {savedBots.map((bot) => (
+                            {savedBots.map((bot, index) => (
                                 <Card
-                                    key={bot.id}
+                                    key={`${bot.id}-${index}`}
                                     className="cursor-pointer hover:border-primary transition-colors flex flex-col"
                                     onClick={() => onChatbotCreate(bot.name, bot.systemPrompt, bot.id)}
                                 >
