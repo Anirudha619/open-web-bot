@@ -29,7 +29,7 @@ Open source AI agent for customer support. Train it on your docs, embed it on yo
 - **Instant responses** — AI-powered replies in milliseconds
 - **24/7 availability** — Handles queries round the clock
 - **Easy integration** — Single script tag, works on any website
-- **Custom knowledge base** — Upload PDF, TXT, DOCX (up to 10MB) or add URLs
+- **Custom knowledge base** — Upload PDF, TXT, DOCX or add URLs
 - **Brand customization** — Custom bot name and color
 
 ---
