@@ -21,7 +21,6 @@ Open source AI agent for customer support. Train it on your docs, embed it on yo
   async
 ></script>
 ```
-
 ---
 
 ## Features
