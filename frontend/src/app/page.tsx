@@ -13,12 +13,12 @@ import {
 } from "@/components/ui/sidebar";
 
 export default function Home() {
-  const [activeBot, setActiveBot] = useState<{ name: string; prompt: string; chatBotId: string } | null>(null);
+  const [activeBot, setActiveBot] = useState<{ name: string; prompt: string; chatBotId: string; logoUrl?: string } | null>(null);
   const { user, loading } = useAuth();
   const router = useRouter();
 
-  const handleChatbotCreate = (name: string, prompt: string, chatBotId: string) => {
-    setActiveBot({ name, prompt, chatBotId });
+  const handleChatbotCreate = (name: string, prompt: string, chatBotId: string, logoUrl?: string) => {
+    setActiveBot({ name, prompt, chatBotId, logoUrl });
   };
 
   useEffect(() => {
@@ -65,6 +65,7 @@ export default function Home() {
                   botName={activeBot?.name || null}
                   systemPrompt={activeBot?.prompt || null}
                   chatBotId={activeBot?.chatBotId || null}
+                  logoUrl={activeBot?.logoUrl}
                 />
               </div>
             </div>

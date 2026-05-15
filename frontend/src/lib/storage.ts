@@ -2,6 +2,7 @@ export interface SavedChatbot {
     id: string;
     name: string;
     systemPrompt: string;
+    logoUrl?: string;
     createdAt: number;
 }
 

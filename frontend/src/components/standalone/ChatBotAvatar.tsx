@@ -1,7 +1,25 @@
-// ChatBotAvatar.tsx
-export function ChatBotAvatar({ size = 40 }: { size?: number }) {
+export function ChatBotAvatar({ size = 40, logoUrl }: { size?: number; logoUrl?: string }) {
+  if (logoUrl) {
+    return (
+      <div
+        style={{
+          width: size,
+          height: size,
+          borderRadius: "50%",
+          overflow: "hidden",
+          flexShrink: 0,
+        }}
+      >
+        <img
+          src={logoUrl}
+          alt="Bot logo"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+      </div>
+    );
+  }
+
   const iconSize = size * 0.6;
-  const offset = (size - iconSize) / 2;
 
   return (
     <div

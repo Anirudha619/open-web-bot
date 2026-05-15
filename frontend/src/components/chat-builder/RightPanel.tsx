@@ -8,9 +8,10 @@ interface RightPanelProps {
     botName: string | null;
     systemPrompt: string | null;
     chatBotId: string | null;
+    logoUrl?: string | null;
 }
 
-export function RightPanel({ botName, systemPrompt, chatBotId }: RightPanelProps) {
+export function RightPanel({ botName, systemPrompt, chatBotId, logoUrl }: RightPanelProps) {
     if (!botName) {
         return (
             <div className="h-full flex flex-col items-center justify-center p-8 text-center bg-card">
@@ -41,6 +42,7 @@ export function RightPanel({ botName, systemPrompt, chatBotId }: RightPanelProps
     return (
         <ChatPanel
             botName={botName}
+            botLogo={logoUrl || undefined}
             onSend={handleSend}
         />
     );

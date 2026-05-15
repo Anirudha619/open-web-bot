@@ -10,6 +10,7 @@ export interface Message {
 
 interface ChatPanelProps {
   botName: string;
+  botLogo?: string;
   initialMessage?: string;
   onSend?: (message: string) => Promise<string>;
   apiEndpoint?: string;
@@ -95,6 +96,7 @@ const defaultStyles = `
 
 export function ChatPanel({ 
   botName, 
+  botLogo,
   initialMessage,
   onSend,
   apiEndpoint = "/chat",
@@ -158,7 +160,7 @@ export function ChatPanel({
         {showHeader && (
           <div className="chat-panel-header">
             
-            <ChatBotAvatar size={40} />
+            <ChatBotAvatar size={40} logoUrl={botLogo} />
             <div className="chat-panel-info">
               <h3>{botName}</h3>
               <p><span />Online</p>

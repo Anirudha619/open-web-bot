@@ -9,11 +9,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UploadCloud, CheckCircle2, MessageSquare, ExternalLink, Copy } from "lucide-react";
 import { saveChatbot, getSavedChatbots, SavedChatbot } from "@/lib/storage";
+import { getSession } from "@/lib/auth";
 import toast from "react-hot-toast";
 
-export function LeftPanel({ onChatbotCreate }: { onChatbotCreate: (name: string, systemPrompt: string, chatBotId: string) => void }) {
+export function LeftPanel({ onChatbotCreate }: { onChatbotCreate: (name: string, systemPrompt: string, chatBotId: string, logoUrl?: string) => void }) {
     const [botName, setBotName] = useState("");
     const [systemPrompt, setSystemPrompt] = useState("You are a helpful assistant.");
+    const [logoFile, setLogoFile] = useState<File | null>(null);
     const [files, setFiles] = useState<File[]>([]);
     const [isUploading, setIsUploading] = useState(false);
     const [savedBots, setSavedBots] = useState<SavedChatbot[]>([]);
@@ -29,28 +31,38 @@ export function LeftPanel({ onChatbotCreate }: { onChatbotCreate: (name: string,
     };
 
     const handleCreate = async () => {
-        if (!botName.trim() || files.length === 0) return;
+        if (!botName.trim()) return;
         setIsUploading(true);
 
         try {
+            const { data: { session } } = await getSession();
+            if (!session?.access_token) throw new Error("Not authenticated");
+
             const formData = new FormData();
-            files.forEach((file) => formData.append("file", file));
-            
-            const res = await fetch(`/upload/${botName.trim()}`, {
-                method: "POST",
-                body: formData
-            });
-            if (!res.ok) throw new Error("Upload failed");
-            const data = await res.json();
-            if (data.status === "indexed") {
-                const newBot = saveChatbot({
-                    id: botName.trim(),
-                    name: botName,
-                    systemPrompt
-                });
-                setSavedBots(getSavedChatbots());
-                onChatbotCreate(newBot.name, newBot.systemPrompt, newBot.id);
+            formData.append("name", botName.trim());
+            formData.append("system_prompt", systemPrompt);
+            if (logoFile) {
+                formData.append("logo", logoFile);
             }
+
+            const res = await fetch(`/chatbots`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${session.access_token}`,
+                },
+                body: formData,
+            });
+            if (!res.ok) throw new Error("Failed to create chatbot");
+            const data = await res.json();
+
+            const newBot = saveChatbot({
+                id: data.id,
+                name: data.name,
+                systemPrompt: data.system_prompt,
+                logoUrl: data.logo_url,
+            });
+            setSavedBots(getSavedChatbots());
+            onChatbotCreate(newBot.name, newBot.systemPrompt, newBot.id, newBot.logoUrl);
         } catch (err) {
             console.error(err);
         } finally {
@@ -87,7 +99,34 @@ export function LeftPanel({ onChatbotCreate }: { onChatbotCreate: (name: string,
                                     onChange={(e) => setBotName(e.target.value)}
                                 />
                             </div>
-                            {/* <div className="space-y-2">
+                            <div className="space-y-2">
+                                <Label>Chatbot Logo (Optional)</Label>
+                                <div className="flex items-center gap-3">
+                                    <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center overflow-hidden shrink-0 border">
+                                        {logoFile ? (
+                                            <img src={URL.createObjectURL(logoFile)} alt="Logo preview" className="w-full h-full object-cover" />
+                                        ) : (
+                                            <UploadCloud className="w-5 h-5 text-muted-foreground" />
+                                        )}
+                                    </div>
+                                    <Input
+                                        type="file"
+                                        id="logo-upload"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={(e) => setLogoFile(e.target.files?.[0] || null)}
+                                    />
+                                    <Button type="button" variant="outline" size="sm" onClick={() => document.getElementById('logo-upload')?.click()}>
+                                        {logoFile ? "Change Logo" : "Upload Logo"}
+                                    </Button>
+                                    {logoFile && (
+                                        <Button type="button" variant="ghost" size="sm" onClick={() => setLogoFile(null)}>
+                                            Remove
+                                        </Button>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="space-y-2">
                                 <Label htmlFor="prompt">System Prompt (Optional)</Label>
                                 <Textarea
                                     id="prompt"
@@ -96,7 +135,7 @@ export function LeftPanel({ onChatbotCreate }: { onChatbotCreate: (name: string,
                                     value={systemPrompt}
                                     onChange={(e) => setSystemPrompt(e.target.value)}
                                 />
-                            </div> */}
+                            </div>
                         </CardContent>
                     </Card>
 
@@ -183,13 +222,22 @@ export function LeftPanel({ onChatbotCreate }: { onChatbotCreate: (name: string,
                                 <Card
                                     key={`${bot.id}-${index}`}
                                     className="cursor-pointer hover:border-primary transition-colors flex flex-col"
-                                    onClick={() => onChatbotCreate(bot.name, bot.systemPrompt, bot.id)}
+                                    onClick={() => onChatbotCreate(bot.name, bot.systemPrompt, bot.id, bot.logoUrl)}
                                 >
                                     <CardHeader className="p-4 pb-2">
-                                        <CardTitle className="text-lg">{bot.name}</CardTitle>
-                                        <CardDescription className="text-xs truncate">
-                                            ID: {bot.id}
-                                        </CardDescription>
+                                        <div className="flex items-center gap-3">
+                                            {bot.logoUrl && (
+                                                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 border">
+                                                    <img src={bot.logoUrl} alt="" className="w-full h-full object-cover" />
+                                                </div>
+                                            )}
+                                            <div className="min-w-0">
+                                                <CardTitle className="text-lg truncate">{bot.name}</CardTitle>
+                                                <CardDescription className="text-xs truncate">
+                                                    ID: {bot.id}
+                                                </CardDescription>
+                                            </div>
+                                        </div>
                                     </CardHeader>
                                     <div className="px-4 pb-4 mt-auto flex items-center justify-end space-x-2">
                                         <Button
